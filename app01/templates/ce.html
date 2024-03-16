@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非物质文化遗产平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-5.3.0/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="{% static 'plugins/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-5.3.0/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-5.3.0/js/bootstrap.bundle.min.js' %}"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-color">
+    <div class="container-fluid">
+        <a class="navbar-brand">非物质文化遗产可视化平台</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">首页</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-haspopup="true">
+                        非遗名录
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'table1' %}">国家级非遗名录</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table2' %}">国家级非遗项目传承人</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table3' %}">国家级非遗保护示范区</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table4' %}">中国入选联合国非遗项目</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="{% url 'cm' %}">非遗地图</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'wm' %}">联合国非遗</a>
+                </li>
+
+            </ul>
+
+            <form class="d-flex" action="{% url 'search' %}">
+                <input class="form-control me-2" type="search" name="keyword" placeholder="请输入非遗名称" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-pause='false'>
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                aria-label="Slide 4"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <a href="{% url 'cm' %}"><img src="{% static 'img/bg2.jpg' %}" class="d-block w-100" alt="..."></a>
+        </div>
+        <div class="carousel-item">
+            <a href="{% url 'table1' %}"><img src="{% static 'img/bg3.jpg' %}" class="d-block w-100" alt="..."></a>
+        </div>
+        <div class="carousel-item">
+            <a href="{% url 'wm' %}"><img src="{% static 'img/bg1.jpg' %}" class="d-block w-100" alt="..."></a>
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'img/bg4.jpg' %}" class="d-block w-100" alt="...">
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="alt">
+        <div class="foot">
+            <p>了解更多</p>
+            <a href="https://www.mct.gov.cn/" target="_blank">中华人民共和国文化和旅游部</a>
+            <a href="https://www.ihchina.cn/" target="_blank">中国非物质文化遗产网</a>
+            <a href="https://www.unesco.org/en" target="_blank">联合国教育、科学和文化组织</a>
+            <a href="'https://www.chinafolklore.org/" target="_blank">中国民俗学网</a>
+        </div>
+        <div class="foot">
+            <p>地方非物质文化遗产网</p>
+            <div class="li"><a href="https://whlyj.beijing.gov.cn/" target="_blank">北京</a></div>
+            <div class="li"><a href="https://www.ichtianjin.com/" target="_blank">天津</a></div>
+            <div class="li"><a href="https://hebculture.cn" target="_blank">河北</a></div>
+            <div class="li"><a href="http://wlt.shanxi.gov.cn/" target="_blank">山西</a></div>
+            <div class="li"><a href="http://www.nmgfeiyi.cn/" target="_blank">内蒙古</a></div>
+            <div class="li"><a href="http://whly.ln.gov.cn/" target="_blank">辽宁</a></div>
+            <div class="li"><a href="http://whhlyt.jl.gov.cn/" target="_blank">吉林</a></div>
+            <div class="li"><a href="http://wlt.hlj.gov.cn/" target="_blank">黑龙江</a></div>
+            <div class="li"><a href="http://www.ichshanghai.cn/" target="_blank">上海</a></div>
+            <div class="li"><a href="http://www.jsfybh.com/#/homePage" target="_blank">江苏</a></div>
+            <div class="li"><a href="http://www.zjich.cn/" target="_blank">浙江</a></div>
+            <div class="li"><a href="http://www.anhuify.net" target="_blank">安徽</a></div>
+            <div class="li"><a href="https://www.fjysg.net/" target="_blank">福建</a></div>
+            <div class="li"><a href="http://dct.jiangxi.gov.cn/" target="_blank">江西</a></div>
+            <div class="li"><a href="http://www.sdfeiyi.org/" target="_blank">山东</a></div>
+            <div class="li"><a href="https://hct.henan.gov.cn/" target="_blank">河南</a></div>
+            <div class="li"><a href="http://wlt.hubei.gov.cn/hbsfwzwhycw/" target="_blank">湖北</a></div>
+            <div class="li"><a href="http://whhlyt.hunan.gov.cn/" target="_blank">湖南</a></div>
+            <div class="li"><a href="http://www.gdsqyg.com/agdfyzg/index" target="_blank">广东</a></div>
+            <div class="li"><a href="http://www.gxfybhw.cn/" target="_blank">广西</a></div>
+            <div class="li"><a href="http://lwt.hainan.gov.cn/" target="_blank">海南</a></div>
+            <div class="li"><a href="http://www.cqwhysyj.cn/" target="_blank">重庆</a></div>
+            <div class="li"><a href="https://www.ichsichuan.cn/" target="_blank">四川</a></div>
+            <div class="li"><a href="http://www.gzfwz.org.cn/" target="_blank">贵州</a></div>
+            <div class="li"><a href="http://www.ynich.cn/" target="_blank">云南</a></div>
+            <div class="li"><a href="http://www.chinatibetnews.com/fy/" target="_blank">西藏</a></div>
+            <div class="li"><a href="http://whhlyt.shaanxi.gov.cn/" target="_blank">陕西</a></div>
+            <div class="li"><a href="http://wlt.gansu.gov.cn/" target="_blank">甘肃</a></div>
+            <div class="li"><a href="http://whlyt.qinghai.gov.cn/" target="_blank">青海</a></div>
+            <div class="li"><a href="http://whhlyt.nx.gov.cn/" target="_blank">宁夏</a></div>
+            <div class="li"><a href="http://wlt.xinjiang.gov.cn/" target="_blank">新疆</a></div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

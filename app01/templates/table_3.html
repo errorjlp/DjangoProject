@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>示范区表格</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-5.3.0/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/table.css' %}">
+    <script src="{% static 'plugins/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-5.3.0/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-5.3.0/js/bootstrap.bundle.min.js' %}"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light bg-color">
+    <div class="container-fluid">
+        <a class="navbar-brand">非物质文化遗产可视化平台</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cs' %}">首页</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-haspopup="true">
+                        非遗名录
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'table1' %}">国家级非遗名录</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table2' %}">国家级非遗项目传承人</a></li>
+                        <li><a class="dropdown-item active" aria-current="page"
+                               href="{% url 'table3' %}">国家级非遗保护示范区</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table4' %}">中国入选联合国非遗项目</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cm' %}">非遗地图</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'wm' %}">联合国非遗</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="h30">国家级非物质文化遗产生产性保护示范基地</div>
+    <div class="p"><p style="text-align:justify;text-indent:2em;">
+        <br>
+    </p>
+        <p>
+            文化部先后于2011年10月和2014年5月公布了两批国家级非物质文化遗产生产性保护示范基地（以下简称“基地”），第一批基地涉及41个企业或单位，第二批基地涉及59个企业或单位，两批基地合计100个。其中，传统技艺类基地57个，传统美术类基地36个，传统医药类基地6个，同时作为传统技艺和传统美术类基地的1个，即山东省潍坊杨家埠民俗艺术有限公司，涉及风筝制作技艺（潍坊风筝）和杨家埠木版年画两个国家级非物质文化遗产代表性项目。在公布名单中，基地总量最多的是四川省，共7个。传统技艺类基地最多的是河南省和江西省，各有4个。传统美术类基地最多的是四川省，也是4个。
+        </p>
+        <p>
+            <br>
+        </p></div>
+    <table class="table" id="table-data">
+        <thead>
+        <tr>
+            <th style="width: 10%">序号</th>
+            <th style="width: 15%">所在地</th>
+            <th style="width: 35%">基地名称</th>
+            <th style="width: 10%">项目类别</th>
+            <th style="width: 30%">国家级名录项目名称</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div class="xia">
+        <span class="total"></span>
+        <span class="current"></span>
+        <input type="button" value="首页" id="bt1">
+        <input type="button" value="上一页" id="bt2">
+        <input type="button" value="下一页" id="bt3">
+        <input type="button" value="尾页" id="bt4">
+        <span>跳转至：</span>
+        <input type="number" value="页数">
+        <span>页</span>
+        <button type="submit">跳转</button>
+    </div>
+
+</div>
+
+
+<script src="{% static 'js/table3.js' %}"></script>
+
+</body>
+</html>

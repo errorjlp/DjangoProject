@@ -1,0 +1,38 @@
+body {
+    margin: 0;
+    background-image: url("../img/bg5.png");
+}
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.left-chart {
+    width: 25%;
+    height: 580px;
+    padding-left: 5px;
+}
+
+.middle-chart {
+    width: 50%;
+    height: 580px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.right-charts {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 25%;
+}
+
+.right-chart-1 {
+    height: 300px;
+}
+
+.right-chart-2 {
+    height: 300px;
+}

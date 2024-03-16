@@ -1,0 +1,57 @@
+body {
+    margin: 0;
+    background-image: url("../img/bg5.png");
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: auto;
+    max-width: 1050px;
+}
+
+.container > * {
+    padding: 10px;
+}
+
+.container > *:nth-child(1) {
+    flex: 1;
+}
+
+.container > *:nth-child(2) {
+    flex: 3;
+}
+
+.container > *:nth-child(3) {
+    flex: 1;
+}
+
+.h30 {
+    font-size: 30px;
+    text-align: center;
+}
+
+.p {;
+    font-size: 14px;
+    padding: 30px 0 35px;
+    text-align: justify;
+    text-indent: 2em;
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center; /* 水平居中 */
+    vertical-align: middle; /* 垂直居中 */
+}
+.xia{
+    margin: 0 auto;
+}

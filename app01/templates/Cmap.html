@@ -1,0 +1,308 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/china.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-5.3.0/css/bootstrap.min.css' %}">
+    <!-- 引入ECharts库 -->
+    <script src="{% static 'plugins/echarts.min.js' %}"></script>
+    <!-- 引入相关地图资源，例如中国地图 -->
+    <script src="{% static 'plugins/jquery-3.7.1.min.js' %}"></script>
+    <!-- 将地图初始化和事件处理的JS代码放在底部或者加载完成后执行 -->
+    <script src="{% static 'js/china.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-5.3.0/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-5.3.0/js/bootstrap.bundle.min.js' %}"></script>
+    <title>中国非遗地图</title>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light bg-color">
+    <div class="container-fluid">
+        <a class="navbar-brand">非物质文化遗产可视化平台</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cs' %}">首页</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-haspopup="true">
+                        非遗名录
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'table1' %}">国家级非遗名录</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table2' %}">国家级非遗项目传承人</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table3' %}">国家级非遗保护示范区</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table4' %}">中国入选联合国非遗项目</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">非遗地图</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'wm' %}">联合国非遗</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="main">
+    <div class="left-chart" id="b-chart"></div>
+    <div class="middle-chart" id="map-chart"></div>
+    <div class="right-charts">
+        <div class="right-chart-1" id="main"></div>
+        <div class="right-chart-2" id="bar-chart"></div>
+    </div>
+</div>
+<script>
+    window.onload = function () {
+        echart01();
+        echart02();
+        echart03();
+        echart04();
+
+        function echart01() {
+            // 获取地图容器
+            var chartDom = document.getElementById('map-chart');
+            var myChart = echarts.init(chartDom);
+            var mdata = {{ data_3|safe }}; // 从模板中直接获取数据
+            // 将字典转换为ECharts所需的数组格式
+            var mapdata = Object.keys(mdata).map(function (key) {
+                return {
+                    name: key,
+                    value: mdata[key]
+                };
+            });
+            option = {
+                title: {
+                    text: "非物质文化遗产地图",
+                    left: "50%",
+                    top: "40",
+                    textAlign: "center",
+                    textStyle: {
+                        color: "#000",
+                        fontWeight: "normal",
+                    },
+                },
+                tooltip: {
+                    trigger: 'item', // 触发方式为数据项图形触发
+                },
+                visualMap: {
+                    min: 0, // 数据最小值
+                    max: Math.max.apply(null, mapdata.map(item => item.value)), // 数据最大值，计算所有数量的最大值
+                    calculable: true, // 是否允许用户手动拖拽范围
+                    inRange: {
+                        color: ['#ffffff', '#f7cb4d', '#ef6c00', '#e63935'] // 颜色渐变区间，从浅至深
+                    }
+                },
+                geo: {
+                    map: 'china',
+                    label: {
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    roam: false,//禁止其放大缩小
+                },
+                series: [
+                    {
+                        name: '非遗传承数量',
+                        type: 'map',
+                        mapType: 'china',
+                        data: mapdata,
+                        label: {
+                            normal: {
+                                formatter: '{b}',
+                                position: 'right',
+                                show: false
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: false,
+                                },
+                            },
+                        }
+                    }
+                ]
+            };
+
+
+            // 设置地图的option
+            myChart.setOption(option);
+        }
+
+        function echart02() {
+            var myChart = echarts.init(document.getElementById('main'));
+            // 从模板中直接获取数据
+            var ChartData = {{ data_1|safe }}; // 从模板中直接获取数据
+            // 将字典转换为ECharts所需的数组格式
+            var Data = Object.keys(ChartData).map(function (key) {
+                return {
+                    name: key,
+                    value: ChartData[key]
+                };
+            });
+
+            var option = {
+                title: {
+                    text: "国家级代表传承人",
+                    left: "50%",
+                    top: "10",
+                    textAlign: "center",
+                    textStyle: {
+                        color: "#000",
+                        fontWeight: "normal",
+                    },
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b}: {c} ({d}%)',  // 显示名称、数值和百分比
+                },
+                series: [{
+                    type: 'pie',
+                    radius: ['40%', '70%'],  // 设置内外半径，形成空心效果
+                    center: ['50%', '50%'],
+                    data: Data,
+                    label: {
+                        normal: {
+                            show: true,  // 显示每个扇形内部的文字标签
+                            position: 'inner'  // 内部标签位置
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false,  // 可以隐藏连接标签的线
+                        }
+                    }
+                }]
+            };
+
+            myChart.setOption(option);
+        }
+
+        function echart03() {
+            var myChart = echarts.init(document.getElementById('bar-chart'));
+            // 从模板中直接获取数据
+            var data = {{ data_2|safe }}; // 从模板中直接获取数据
+            // 将字典转换为ECharts所需的数组格式
+            var sdata = Object.keys(data).map(function (key) {
+                return {
+                    name: key,
+                    value: data[key]
+                };
+            });
+            // 配置项
+            var option = {
+                title: {
+                    text: "各省非遗示范区",
+                    left: "50%",
+                    top: "10",
+                    textAlign: "center",
+                    textStyle: {
+                        color: "#000",
+                        fontWeight: "normal",
+                    },
+                },
+                tooltip: {},
+                xAxis: {
+                    type: 'category',
+                    data: sdata.map(item => item.name)
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    name: '数据',
+                    type: 'bar',
+                    data: sdata.map(item => item.value)
+                }]
+            };
+
+            myChart.setOption(option);
+        }
+
+        function echart04() {
+            var myChart = echarts.init(document.getElementById('b-chart'));
+            // 从模板中直接获取数据
+            var cdata = {{ data_4|safe }}; // 从模板中直接获取数据
+            // 将字典转换为ECharts所需的数组格式
+            var bardata = Object.keys(cdata).map(function (key) {
+                return {
+                    name: key,
+                    value: cdata[key]
+                };
+            });
+            // 计算总和
+            var totalValue = bardata.reduce((sum, item) => sum + item.value, 0);
+
+            // 配置项
+            var option = {
+                title: {
+                    text: "全国各类别非遗名录数量",
+                    left: "50%",
+                    top: "10",
+                    textAlign: "center",
+                    textStyle: {
+                        color: "#000",
+                        fontWeight: "normal",
+                    },
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                xAxis: {
+                    type: 'value', // 将X轴设为数值轴（此时为横向）
+                    position: 'top', // 可以选择X轴在顶部或底部
+                },
+                yAxis: {
+                    type: 'category', // 将Y轴设为类目轴（此时为纵向）
+                    data: bardata.map(item => item.name),
+                    axisLabel: {
+                        rotate: 0 // 可以设置标签旋转角度，根据实际需求调整
+                    }
+                },
+                series: [{
+                    name: '数据',
+                    type: 'bar',
+                    data: bardata.map(item => item.value),
+                    barCategoryGap: '30%', // 柱间间距，可按需调整
+                    barWidth: '60%', // 柱子宽度，可按需调整
+                    itemStyle: {
+                        color: '#3f86ff' // 柱子颜色，可按需调整
+                    }
+                }],
+                graphic: {
+                    elements: [{
+                        type: 'text',
+                        left: 'center',
+                        top: 'bottom', // 文本位于图表底部
+                        z: 100, // 确保文本在图表之上
+                        style: {
+                            text: '总数: ' + totalValue,
+                            fill: '#333',
+                            fontSize: 14,
+                            textAlign: 'center' // 文本居中
+                        }
+                    }]
+                }
+            };
+            myChart.setOption(option);
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询结果</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-5.3.0/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+    <script src="{% static 'plugins/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-5.3.0/js/bootstrap.min.js' %}"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-fixed-top navbar-light bg-color">
+    <div class="container-fluid">
+        <a class="navbar-brand">非物质文化遗产可视化平台</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cs' %}">首页</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-haspopup="true">
+                        非遗名录
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'table1' %}">国家级非遗名录</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table2' %}">国家级非遗项目传承人</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table3' %}">国家级非遗保护示范区</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table4' %}">中国入选联合国非遗项目</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cm' %}">非遗地图</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'wm' %}">联合国非遗</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <table id="table-data" class="table">
+        <thead>
+        <tr>
+            <th style="width: 8%">序号</th>
+            <th style="width: 8%">编号</th>
+            <th style="width: 10%">名称</th>
+            <th style="width: 10%">类型</th>
+            <th style="width: 10%">年份</th>
+            <th style="width: 14%">申报地区</th>
+            <th style="width: 40%">保护机构</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in objects %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ object.bid }}</td>
+                <td>{{ object.name }}</td>
+                <td>{{ object.cate }}</td>
+                <td>{{ object.year }}</td>
+                <td>{{ object.region }}</td>
+                <td>{{ object.institution }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6">无搜索结果</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

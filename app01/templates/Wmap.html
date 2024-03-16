@@ -1,0 +1,270 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/world.css' %}">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-5.3.0/css/bootstrap.min.css' %}">
+    <!-- 引入ECharts库 -->
+    <script src="{% static 'plugins/echarts.min.js' %}"></script>
+    <!-- 引入相关地图资源，例如中国地图 -->
+    <script src="{% static 'plugins/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/worldZH.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-5.3.0/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-5.3.0/js/bootstrap.bundle.min.js' %}"></script>
+    <title>世界非遗地图</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-color navbar-fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand">非物质文化遗产可视化平台</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cs' %}">首页</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
+                       data-bs-toggle="dropdown" aria-haspopup="true">
+                        非遗名录
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" href="{% url 'table1' %}">国家级非遗名录</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table2' %}">国家级非遗项目传承人</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table3' %}">国家级非遗保护示范区</a></li>
+                        <li><a class="dropdown-item" href="{% url 'table4' %}">中国入选联合国非遗项目</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cm' %}">非遗地图</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page">联合国非遗</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="main">
+    <div class="left-chart" id="map-chart"></div>
+    <div class="right-chart" id="c-chart"></div>
+</div>
+<script>
+    window.onload = function () {
+        echart01();
+        echart02();
+
+        function echart01() {
+            // 获取地图容器
+            var chartDom = document.getElementById('map-chart');
+            var myChart = echarts.init(chartDom);
+            var data = [
+                {name: '中国', value: 43}, {name: '法国', value: 23},
+                {name: '日本', value: 22}, {name: '韩国', value: 21},
+                {name: '西班牙', value: 20}, {name: '土耳其', value: 20},
+                {name: '克罗地亚', value: 17}, {name: '伊朗', value: 16},
+                {name: '阿塞拜疆', value: 15}, {name: '蒙古', value: 15},
+                {name: '比利时', value: 14}, {name: '意大利', value: 14},
+                {name: '印度', value: 13}, {name: '越南', value: 13},
+                {name: '哥伦比亚', value: 12}, {name: '秘鲁', value: 12},
+                {name: '印度尼西亚', value: 11}, {name: '哈萨克斯坦', value: 11},
+                {name: '墨西哥', value: 11}, {name: '阿联酋', value: 11},
+                {name: '吉尔吉斯斯坦', value: 10}, {name: '摩洛哥', value: 10},
+                {name: '阿曼', value: 10}, {name: '巴西', value: 9},
+                {name: '希腊', value: 9}, {name: '乌兹别克斯坦', value: 9},
+                {name: '阿尔及利亚', value: 8}, {name: '葡萄牙', value: 8},
+                {name: '沙特阿拉伯', value: 8}, {name: '瑞士', value: 8},
+                {name: '亚美尼亚', value: 7}, {name: '捷克', value: 7},
+                {name: '罗马尼亚', value: 7}, {name: '委内瑞拉', value: 7},
+                {name: '柬埔寨', value: 5}, {name: '埃及', value: 5},
+                {name: '德国', value: 5}, {name: '伊拉克', value: 5},
+                {name: '马来西亚', value: 5}, {name: '尼日利亚', value: 5},
+                {name: '孟加拉国', value: 4}, {name: '白俄罗斯', value: 4},
+                {name: '古巴', value: 4}, {name: '埃塞尔比亚', value: 4},
+                {name: '菲律宾', value: 4}, {name: '塞尔维亚', value: 4},
+                {name: '阿根廷', value: 3}, {name: '厄瓜多尔', value: 3},
+                {name: '朝鲜', value: 3}, {name: '挪威', value: 3},
+                {name: '巴基斯坦', value: 3}, {name: '叙利亚', value: 3},
+                {name: '乌克兰', value: 3}, {name: '智利', value: 2},
+                {name: '波兰', value: 2}, {name: '俄罗斯', value: 2},
+                {name: '泰国', value: 2}, {name: '也门', value: 2},
+                {name: '阿富汗', value: 1}, {name: '芬兰', value: 1},
+                {name: '老挝', value: 1}, {name: '荷兰', value: 1},
+                {name: '新加坡', value: 1}, {name: '斯里兰卡', value: 1},
+                {name: '苏丹', value: 1}, {name: '瑞典', value: 1},
+                {name: '巴拉圭', value: 1}, {name: '莫桑比克', value: 1},
+                {name: '吉布提', value: 1}, {name: '圭亚那', value: 1},
+                {name: '阿尔巴尼亚', value: 1}, {name: '毛利坦尼亚', value: 1},
+                {name: '塞内加尔', value: 1}, {name: '几内亚', value: 1},
+                {name: '东帝汶', value: 1}, {name: '马达加斯加', value: 1},
+                {name: '莫桑比克', value: 1}, {name: '塞内加尔', value: 1},
+                {name: '斯里兰卡', value: 1}, {name: '津巴布韦', value: 1},
+                {name: '贝宁', value: 1}, {name: '中非', value: 1},
+                {name: '刚果', value: 1}, {name: '马里', value: 1},
+                {name: '索马里', value: 1}, {name: '埃塞俄比亚', value: 4},
+                {name: '玻利维亚', value: 1}, {name: '纳米比亚', value: 1},
+                {name: '安哥拉', value: 1}, {name: '赞比亚', value: 1},
+            ];
+            option = {
+                title: {
+                    text: "全球非物质文化遗产地图",
+                    left: "50%",
+                    top: "40",
+                    textAlign: "center",
+                    textStyle: {
+                        color: "#000",
+                        fontWeight: "normal",
+                    },
+                },
+                tooltip: {
+                    trigger: 'item', // 触发方式为数据项图形触发
+                },
+                visualMap: {
+                    min: 0, // 数据最小值
+                    max: 43, // 数据最大值，计算所有数量的最大值
+                    calculable: true, // 是否允许用户手动拖拽范围
+                    inRange: {
+                        color: ['#ffffff', '#f7cb4d', '#ef6c00', '#e63935'] // 颜色渐变区间，从浅至深
+                    }
+                },
+                geo: {
+                    map: 'world',
+                    label: {
+                        emphasis: {
+                            show: false
+                        }
+                    },
+                    roam: false,//禁止其放大缩小
+                },
+                series: [
+                    {
+                        name: '该国非遗数量',
+                        type: 'map',
+                        mapType: 'world',
+                        data: data,
+                        label: {
+                            normal: {
+                                formatter: '{b}',
+                                position: 'right',
+                                show: false
+                            },
+                            emphasis: {
+                                show: true
+                            }
+                        },
+                        itemStyle: {
+                            normal: {
+                                label: {
+                                    show: false,
+                                },
+                            },
+                        }
+                    }
+                ]
+            };
+            // 设置地图的option
+            myChart.setOption(option);
+        }
+
+        function echart02() {
+            // 获取地图容器
+            var chartDom = document.getElementById('c-chart');
+            var myChart = echarts.init(chartDom);
+            var data = [
+                {name: '中国', value: 43}, {name: '法国', value: 23},
+                {name: '日本', value: 22}, {name: '韩国', value: 21},
+                {name: '西班牙', value: 20}, {name: '土耳其', value: 20},
+                {name: '克罗地亚', value: 17}, {name: '伊朗', value: 16},
+                {name: '阿塞拜疆', value: 15}, {name: '蒙古', value: 15},
+                {name: '比利时', value: 14}, {name: '意大利', value: 14},
+                {name: '印度', value: 13}, {name: '越南', value: 13},
+                {name: '哥伦比亚', value: 12}, {name: '秘鲁', value: 12},
+                {name: '印度尼西亚', value: 11}, {name: '哈萨克斯坦', value: 11},
+                {name: '墨西哥', value: 11}, {name: '阿联酋', value: 11},
+                {name: '吉尔吉斯斯坦', value: 10}, {name: '摩洛哥', value: 10},
+                {name: '阿曼', value: 10}, {name: '巴西', value: 9},
+                {name: '希腊', value: 9}, {name: '乌兹别克斯坦', value: 9},
+                {name: '阿尔及利亚', value: 8}, {name: '葡萄牙', value: 8},
+                {name: '沙特阿拉伯', value: 8}, {name: '瑞士', value: 8},
+                {name: '亚美尼亚', value: 7}, {name: '捷克', value: 7},
+                {name: '罗马尼亚', value: 7}, {name: '委内瑞拉', value: 7},
+                {name: '柬埔寨', value: 5}, {name: '埃及', value: 5},
+                {name: '德国', value: 5}, {name: '伊拉克', value: 5},
+                {name: '马来西亚', value: 5}, {name: '尼日利亚', value: 5},
+                {name: '孟加拉国', value: 4}, {name: '白俄罗斯', value: 4},
+                {name: '古巴', value: 4}, {name: '埃塞尔比亚', value: 4},
+                {name: '菲律宾', value: 4}, {name: '塞尔维亚', value: 4},
+                {name: '阿根廷', value: 3}, {name: '厄瓜多尔', value: 3},
+                {name: '朝鲜', value: 3}, {name: '挪威', value: 3},
+                {name: '巴基斯坦', value: 3}, {name: '叙利亚', value: 3},
+                {name: '乌克兰', value: 3}, {name: '智利', value: 2},
+                {name: '波兰', value: 2}, {name: '俄罗斯', value: 2},
+                {name: '泰国', value: 2}, {name: '也门', value: 2},
+                {name: '阿富汗', value: 1}, {name: '芬兰', value: 1},
+                {name: '老挝', value: 1}, {name: '荷兰', value: 1},
+                {name: '新加坡', value: 1}, {name: '斯里兰卡', value: 1},
+                {name: '苏丹', value: 1}, {name: '瑞典', value: 1},
+                {name: '巴拉圭', value: 1}, {name: '莫桑比克', value: 1},
+                {name: '吉布提', value: 1}, {name: '圭亚那', value: 1},
+                {name: '阿尔巴尼亚', value: 1}, {name: '毛利坦尼亚', value: 1},
+                {name: '塞内加尔', value: 1}, {name: '几内亚', value: 1},
+                {name: '东帝汶', value: 1}, {name: '马达加斯加', value: 1},
+                {name: '莫桑比克', value: 1}, {name: '塞内加尔', value: 1},
+                {name: '斯里兰卡', value: 1}, {name: '津巴布韦', value: 1},
+                {name: '贝宁', value: 1}, {name: '中非', value: 1},
+                {name: '刚果', value: 1}, {name: '马里', value: 1},
+                {name: '索马里', value: 1}, {name: '埃塞俄比亚', value: 4},
+                {name: '玻利维亚', value: 1}, {name: '纳米比亚', value: 1},
+                {name: '安哥拉', value: 1}, {name: '赞比亚', value: 1},
+            ];
+            // 配置项
+            var option = {
+                title: {
+                    text: "全球各国非遗名录数量",
+                    left: "50%",
+                    top: "10",
+                    textAlign: "center",
+                    textStyle: {
+                        color: "#000",
+                        fontWeight: "normal",
+                    },
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                xAxis: {
+                    type: 'value',
+                    name: '数量',
+                    position: 'top' // 将X轴（数值轴）置于上方
+                },
+                yAxis: {
+                    type: 'category',
+                    data: data.map(item => item.name),
+                    axisLabel: {
+                        rotate: 0 // 根据实际情况调整标签旋转角度
+                    }
+                },
+                series: [{
+                    name: '国家',
+                    type: 'bar',
+                    data: data.map(item => item.value),
+                    barCategoryGap: '30%', // 柱间间距，可按需调整
+                    barWidth: '60%' // 柱子宽度，可按需调整
+                }],
+            };
+
+            // 设置地图的option
+            myChart.setOption(option);
+        }
+    }
+</script>
+</body>
+</html>
