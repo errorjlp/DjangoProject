@@ -38,7 +38,10 @@ body {
     text-align: justify;
     text-indent: 2em;
 }
-
+.s{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 /* 表格样式 */
 table {
     width: 100%;

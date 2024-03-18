@@ -1,4 +1,5 @@
 from django.core.paginator import *
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render,HttpResponse
 from django.shortcuts import redirect
@@ -138,7 +139,23 @@ def table1(request):
 
 
 def table1api(request):
-    projects = cich.objects.all()
+    print(request.GET)
+    #筛选逻辑
+    time = request.GET.get('time')
+    category = request.GET.get('category')
+    region = request.GET.get('region')
+    # 构造查询条件
+    filters = Q()
+    if time:
+        filters &= Q(year=time)
+    if category:
+        filters &= Q(cate=category)
+    if region:
+        filters &= Q(region__icontains=region)
+
+    # 执行筛选查询
+    projects = cich.objects.filter(filters)
+
     paginator = Paginator(projects, 10)
 
     page_number = request.GET.get('page',1)
@@ -167,7 +184,22 @@ def table1api(request):
 def table2(request):
     return render(request, 'table_2.html')
 def table2api(request):
-    projects = pich.objects.all()
+    print(request.GET)
+    # 筛选逻辑
+    gender = request.GET.get('gender')
+    category = request.GET.get('category')
+    region = request.GET.get('region')
+    # 构造查询条件
+    filters = Q()
+    if gender:
+        filters &= Q(gender=gender)
+    if category:
+        filters &= Q(category=category)
+    if region:
+        filters &= Q(region__icontains=region)
+
+    # 执行筛选查询
+    projects = pich.objects.filter(filters)
     paginator = Paginator(projects, 10)
 
     page_number = request.GET.get('page', 1)

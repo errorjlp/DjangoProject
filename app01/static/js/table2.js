@@ -97,11 +97,81 @@ $(document).ready(function () {
         return currentPage;
     }
 
-    // 初始加载表格数据
-    function getTableData() {
+    const DEFAULT_GENDER = '性别';
+    const DEFAULT_CATEGORY = '类别';
+    const DEFAULT_REGION = '所属地区';
+    let filterSubmitBtn = $('button.filter-submit'); // 筛选按钮的class为'.filter-submit'
+    let genderFilter = $('#gender');
+    let cateFilter = $('#category');
+    let regionFilter = $('#region');
+
+    // 给筛选按钮添加点击事件
+    filterSubmitBtn.click(function () {
+        let gender = genderFilter.val();
+        let category = cateFilter.val();
+        let region = regionFilter.val();
+        // 检查筛选条件是否为默认值
+        gender = gender !== DEFAULT_GENDER ? gender : null;
+        category = category !== DEFAULT_CATEGORY ? category : null;
+        region = region !== DEFAULT_REGION ? region : null;
+        // 创建筛选参数对象，只包含非默认值的筛选条件
+        const params = {};
+        if (gender) params.gender = gender;
+        if (category) params.category = category;
+        if (region) params.region = region;
+        // 只发送筛选条件，不触发页码跳转
+        console.log(params)
+
+        loadFilteredTableData(params);
+    });
+    // 添加重置筛选按钮的点击事件监听器
+    let resetFilterBtn = $('.reset-filter');
+    resetFilterBtn.click(function () {
+        // 清空筛选条件输入框
+        genderFilter.val('性别');
+        cateFilter.val('类别');
+        regionFilter.val('所属地区');
+
+        // 重新加载初始表格数据
+        initialLoadTableData();
+    });
+
+    // 加载经过筛选的表格数据
+    function loadFilteredTableData(params) {
+
         $.ajax({
             url: '/table2api/',
             type: 'GET',
+            data: params,
+            dataType: 'json',
+            success: function (data) {
+                renderTableData(data);
+                updatePagination(data.total_pages, data.current_page);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+    // 初始加载表格数据
+    function initialLoadTableData() {
+        getTableData(null, null, null);
+    }
+    // 初始加载表格数据
+    function getTableData(gender, category, region) {
+        let params = {
+            gender: gender,
+            category: category,
+            region: region
+        };
+
+        // 移除无效的筛选参数（即值为空的筛选条件）
+        params = Object.entries(params).reduce((acc, [key, value]) => value ? {...acc, [key]: value} : acc, {});
+
+        $.ajax({
+            url: '/table2api/',
+            type: 'GET',
+            data: params,
             dataType: 'json',
             success: function (data) {
                 renderTableData(data);
@@ -114,6 +184,12 @@ $(document).ready(function () {
         });
     }
 
+    // 在文档加载完成后首先进行初始化加载
+    $(document).ready(function () {
+        // ...
+        initialLoadTableData();
+        // ...
+    });
     // 加载表格数据
     getTableData();
 
