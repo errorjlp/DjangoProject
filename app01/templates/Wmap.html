@@ -63,53 +63,14 @@
             // 获取地图容器
             var chartDom = document.getElementById('map-chart');
             var myChart = echarts.init(chartDom);
-            var data = [
-                {name: '中国', value: 43}, {name: '法国', value: 23},
-                {name: '日本', value: 22}, {name: '韩国', value: 21},
-                {name: '西班牙', value: 20}, {name: '土耳其', value: 20},
-                {name: '克罗地亚', value: 17}, {name: '伊朗', value: 16},
-                {name: '阿塞拜疆', value: 15}, {name: '蒙古', value: 15},
-                {name: '比利时', value: 14}, {name: '意大利', value: 14},
-                {name: '印度', value: 13}, {name: '越南', value: 13},
-                {name: '哥伦比亚', value: 12}, {name: '秘鲁', value: 12},
-                {name: '印度尼西亚', value: 11}, {name: '哈萨克斯坦', value: 11},
-                {name: '墨西哥', value: 11}, {name: '阿联酋', value: 11},
-                {name: '吉尔吉斯斯坦', value: 10}, {name: '摩洛哥', value: 10},
-                {name: '阿曼', value: 10}, {name: '巴西', value: 9},
-                {name: '希腊', value: 9}, {name: '乌兹别克斯坦', value: 9},
-                {name: '阿尔及利亚', value: 8}, {name: '葡萄牙', value: 8},
-                {name: '沙特阿拉伯', value: 8}, {name: '瑞士', value: 8},
-                {name: '亚美尼亚', value: 7}, {name: '捷克', value: 7},
-                {name: '罗马尼亚', value: 7}, {name: '委内瑞拉', value: 7},
-                {name: '柬埔寨', value: 5}, {name: '埃及', value: 5},
-                {name: '德国', value: 5}, {name: '伊拉克', value: 5},
-                {name: '马来西亚', value: 5}, {name: '尼日利亚', value: 5},
-                {name: '孟加拉国', value: 4}, {name: '白俄罗斯', value: 4},
-                {name: '古巴', value: 4}, {name: '埃塞尔比亚', value: 4},
-                {name: '菲律宾', value: 4}, {name: '塞尔维亚', value: 4},
-                {name: '阿根廷', value: 3}, {name: '厄瓜多尔', value: 3},
-                {name: '朝鲜', value: 3}, {name: '挪威', value: 3},
-                {name: '巴基斯坦', value: 3}, {name: '叙利亚', value: 3},
-                {name: '乌克兰', value: 3}, {name: '智利', value: 2},
-                {name: '波兰', value: 2}, {name: '俄罗斯', value: 2},
-                {name: '泰国', value: 2}, {name: '也门', value: 2},
-                {name: '阿富汗', value: 1}, {name: '芬兰', value: 1},
-                {name: '老挝', value: 1}, {name: '荷兰', value: 1},
-                {name: '新加坡', value: 1}, {name: '斯里兰卡', value: 1},
-                {name: '苏丹', value: 1}, {name: '瑞典', value: 1},
-                {name: '巴拉圭', value: 1}, {name: '莫桑比克', value: 1},
-                {name: '吉布提', value: 1}, {name: '圭亚那', value: 1},
-                {name: '阿尔巴尼亚', value: 1}, {name: '毛利坦尼亚', value: 1},
-                {name: '塞内加尔', value: 1}, {name: '几内亚', value: 1},
-                {name: '东帝汶', value: 1}, {name: '马达加斯加', value: 1},
-                {name: '莫桑比克', value: 1}, {name: '塞内加尔', value: 1},
-                {name: '斯里兰卡', value: 1}, {name: '津巴布韦', value: 1},
-                {name: '贝宁', value: 1}, {name: '中非', value: 1},
-                {name: '刚果', value: 1}, {name: '马里', value: 1},
-                {name: '索马里', value: 1}, {name: '埃塞俄比亚', value: 4},
-                {name: '玻利维亚', value: 1}, {name: '纳米比亚', value: 1},
-                {name: '安哥拉', value: 1}, {name: '赞比亚', value: 1},
-            ];
+            var mdata = {{ data|safe }}; // 从模板中直接获取数据
+            // 将字典转换为ECharts所需的数组格式
+            var mapdata = Object.keys(mdata).map(function (key) {
+                return {
+                    name: key,
+                    value: mdata[key]
+                };
+            });
             option = {
                 title: {
                     text: "全球非物质文化遗产地图",
@@ -146,7 +107,7 @@
                         name: '该国非遗数量',
                         type: 'map',
                         mapType: 'world',
-                        data: data,
+                        data: mapdata,
                         label: {
                             normal: {
                                 formatter: '{b}',
@@ -175,57 +136,22 @@
             // 获取地图容器
             var chartDom = document.getElementById('c-chart');
             var myChart = echarts.init(chartDom);
-            var data = [
-                {name: '中国', value: 43}, {name: '法国', value: 23},
-                {name: '日本', value: 22}, {name: '韩国', value: 21},
-                {name: '西班牙', value: 20}, {name: '土耳其', value: 20},
-                {name: '克罗地亚', value: 17}, {name: '伊朗', value: 16},
-                {name: '阿塞拜疆', value: 15}, {name: '蒙古', value: 15},
-                {name: '比利时', value: 14}, {name: '意大利', value: 14},
-                {name: '印度', value: 13}, {name: '越南', value: 13},
-                {name: '哥伦比亚', value: 12}, {name: '秘鲁', value: 12},
-                {name: '印度尼西亚', value: 11}, {name: '哈萨克斯坦', value: 11},
-                {name: '墨西哥', value: 11}, {name: '阿联酋', value: 11},
-                {name: '吉尔吉斯斯坦', value: 10}, {name: '摩洛哥', value: 10},
-                {name: '阿曼', value: 10}, {name: '巴西', value: 9},
-                {name: '希腊', value: 9}, {name: '乌兹别克斯坦', value: 9},
-                {name: '阿尔及利亚', value: 8}, {name: '葡萄牙', value: 8},
-                {name: '沙特阿拉伯', value: 8}, {name: '瑞士', value: 8},
-                {name: '亚美尼亚', value: 7}, {name: '捷克', value: 7},
-                {name: '罗马尼亚', value: 7}, {name: '委内瑞拉', value: 7},
-                {name: '柬埔寨', value: 5}, {name: '埃及', value: 5},
-                {name: '德国', value: 5}, {name: '伊拉克', value: 5},
-                {name: '马来西亚', value: 5}, {name: '尼日利亚', value: 5},
-                {name: '孟加拉国', value: 4}, {name: '白俄罗斯', value: 4},
-                {name: '古巴', value: 4}, {name: '埃塞尔比亚', value: 4},
-                {name: '菲律宾', value: 4}, {name: '塞尔维亚', value: 4},
-                {name: '阿根廷', value: 3}, {name: '厄瓜多尔', value: 3},
-                {name: '朝鲜', value: 3}, {name: '挪威', value: 3},
-                {name: '巴基斯坦', value: 3}, {name: '叙利亚', value: 3},
-                {name: '乌克兰', value: 3}, {name: '智利', value: 2},
-                {name: '波兰', value: 2}, {name: '俄罗斯', value: 2},
-                {name: '泰国', value: 2}, {name: '也门', value: 2},
-                {name: '阿富汗', value: 1}, {name: '芬兰', value: 1},
-                {name: '老挝', value: 1}, {name: '荷兰', value: 1},
-                {name: '新加坡', value: 1}, {name: '斯里兰卡', value: 1},
-                {name: '苏丹', value: 1}, {name: '瑞典', value: 1},
-                {name: '巴拉圭', value: 1}, {name: '莫桑比克', value: 1},
-                {name: '吉布提', value: 1}, {name: '圭亚那', value: 1},
-                {name: '阿尔巴尼亚', value: 1}, {name: '毛利坦尼亚', value: 1},
-                {name: '塞内加尔', value: 1}, {name: '几内亚', value: 1},
-                {name: '东帝汶', value: 1}, {name: '马达加斯加', value: 1},
-                {name: '莫桑比克', value: 1}, {name: '塞内加尔', value: 1},
-                {name: '斯里兰卡', value: 1}, {name: '津巴布韦', value: 1},
-                {name: '贝宁', value: 1}, {name: '中非', value: 1},
-                {name: '刚果', value: 1}, {name: '马里', value: 1},
-                {name: '索马里', value: 1}, {name: '埃塞俄比亚', value: 4},
-                {name: '玻利维亚', value: 1}, {name: '纳米比亚', value: 1},
-                {name: '安哥拉', value: 1}, {name: '赞比亚', value: 1},
-            ];
+            var cdata = {{ data|safe }}; // 从模板中直接获取数据
+            // 将字典转换为ECharts所需的数组格式
+            var bardata = Object.keys(cdata).map(function (key) {
+                return {
+                    name: key,
+                    value: cdata[key]
+                };
+            });
+
+            // 计算总和
+            var totalValue = bardata.reduce((sum, item) => sum + item.value, 0);
+
             // 配置项
             var option = {
                 title: {
-                    text: "全球各国非遗名录数量",
+                    text: "各国入选联合国非遗数量",
                     left: "50%",
                     top: "10",
                     textAlign: "center",
@@ -241,24 +167,41 @@
                     }
                 },
                 xAxis: {
-                    type: 'value',
-                    name: '数量',
-                    position: 'top' // 将X轴（数值轴）置于上方
+                    type: 'value', // 将X轴设为数值轴（此时为横向）
+                    position: 'top', // 可以选择X轴在顶部或底部
                 },
                 yAxis: {
-                    type: 'category',
-                    data: data.map(item => item.name),
+                    type: 'category', // 将Y轴设为类目轴（此时为纵向）
+                    data: bardata.map(item => item.name),
                     axisLabel: {
-                        rotate: 0 // 根据实际情况调整标签旋转角度
+                        rotate: 0 // 可以设置标签旋转角度，根据实际需求调整
                     }
                 },
                 series: [{
-                    name: '国家',
+                    name: '数据',
                     type: 'bar',
-                    data: data.map(item => item.value),
+                    data: bardata.map(item => item.value),
                     barCategoryGap: '30%', // 柱间间距，可按需调整
-                    barWidth: '60%' // 柱子宽度，可按需调整
+                    barWidth: '60%', // 柱子宽度，可按需调整
+                    itemStyle: {
+                        color: '#3f86ff' // 柱子颜色，可按需调整
+                    }
                 }],
+                graphic: {
+                    elements: [{
+                        type: 'text',
+                        left: 'center',
+                        top: 'bottom', // 文本位于图表底部
+                        bottom:'5%',
+                        z: 100, // 确保文本在图表之上
+                        style: {
+                            text: '总数: ' + totalValue,
+                            fill: '#333',
+                            fontSize: 14,
+                            textAlign: 'center' // 文本居中
+                        }
+                    }]
+                }
             };
 
             // 设置地图的option

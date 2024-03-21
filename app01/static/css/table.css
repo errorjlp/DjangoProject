@@ -42,6 +42,10 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.shai{
+    padding-left: 10px;
+    padding-right: 10px;
+}
 /* 表格样式 */
 table {
     width: 100%;
